@@ -1,6 +1,6 @@
 import { setCookie, getCookie, deleteCookie } from './cookies';
 
-const baseUrl = 'https://familybudget.ddns.net/api';
+const baseUrl = 'https://budgetfamily.ru/api';
 const defaultHeaders = {
   'Content-Type': 'application/json',
 };
