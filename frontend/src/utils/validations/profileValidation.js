@@ -33,18 +33,26 @@ const profileValidation = yup.object().shape({
     }),
   first_name: yup
     .string()
-    .test('first_name', (value) => {
+    .test('first_name', 'Не содержит цифры/символы', (value) => {
       if (!value || value.trim().length === 0) {
         return true;
+      };
+      const isName = /^[a-zA-Z-\s]+$/.test(value);
+      if (!isName) {
+        return false;
       }
       return value.length > 0;
     })
     .max(25, 'Поле Имя не длиннее 25 символов'),
   last_name: yup
     .string()
-    .test('last_name', (value) => {
+    .test('last_name', 'Не содержит цифры/символы', (value) => {
       if (!value || value.trim().length === 0) {
         return true;
+      };
+      const isName = /^[a-zA-Z-\s]+$/.test(value);
+      if (!isName) {
+        return false;
       }
       return value.length > 0;
     })
