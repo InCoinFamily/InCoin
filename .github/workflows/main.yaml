@@ -94,11 +94,11 @@ jobs:
             echo PGADMIN_DEFAULT_EMAIL=${{ secrets.PGADMIN_DEFAULT_EMAIL }} >> .env
             echo PGADMIN_DEFAULT_PASSWORD=${{ secrets.PGADMIN_DEFAULT_PASSWORD }} >> .env
             echo PGADMIN_LISTEN_PORT=${{ secrets.PGADMIN_LISTEN_PORT }} >> .env
-            sudo -S docker pull ${{ secrets.PROD_BACKEND_IMAGE }}
-            sudo -S docker pull ${{ secrets.PROD_FRONTEND_IMAGE }}
-            sudo -S docker-compose down
-            sudo -S docker-compose up -d
-            sudo -S docker image prune -a -f
+            docker pull ${{ secrets.PROD_BACKEND_IMAGE }}
+            docker pull ${{ secrets.PROD_FRONTEND_IMAGE }}
+            docker-compose down
+            docker-compose up -d
+            docker image prune -a -f
 
   send_message:
       name: Send message telegram
