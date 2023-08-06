@@ -9,6 +9,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 root_dir_content = os.listdir(BASE_DIR)
 
 infra_dir_path = os.path.join(root_dir, "infra")
+
 PROJECT_DIR_NAME = "backend"
 if PROJECT_DIR_NAME not in root_dir_content or not os.path.isdir(
     os.path.join(BASE_DIR, PROJECT_DIR_NAME)
