@@ -20,7 +20,6 @@ from .utils import (
 
 class TestUsersAPI:
     url_users = "/api/users/"
-
     url_me = "/api/users/me/"
     url_set_password = "/api/users/set_password/"
     url_login = "/api/auth/token/login/"
