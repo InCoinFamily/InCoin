@@ -3,10 +3,17 @@ name: Test frontend
 on:
   push:
     branches:
+<<<<<<< HEAD
       - develop
   pull_request:
     branches:
       - develop
+=======
+      - frontend
+  pull_request:
+    branches:
+      - frontend
+>>>>>>> 0319772ba9a6fe929cdd6f3c4ac4ba56a9c85b33
 
 jobs:
   eslint:
