@@ -83,7 +83,6 @@ jobs:
           username: ${{ secrets.USER }}
           key: ${{ secrets.SSH_KEY }}
           passphrase: ${{ secrets.PASSPHRASE }}
-          password: ${{ secrets.PASSPHRASE }}
           script: |
             echo PRODUCTION_HOSTS=${{ secrets.PRODUCTION_HOSTS }} > .env
             echo DB_ENGINE=${{ secrets.DB_ENGINE }} >> .env
