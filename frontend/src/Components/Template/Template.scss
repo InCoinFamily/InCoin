@@ -1,0 +1,20 @@
+@import '../../styles/consts.scss';
+
+.template {
+  padding: 12px;
+  background: $clearWhite;
+  border-radius: 16px;
+  height: min-content;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.template__title {
+  @include text-large-web-bold;
+}
+
+// extraClass
+.template__button {
+  justify-content: center;
+}
