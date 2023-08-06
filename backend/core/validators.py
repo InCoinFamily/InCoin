@@ -1,10 +1,17 @@
 from django.core.validators import RegexValidator, _lazy_re_compile
 from django.utils.translation import gettext_lazy as _
 
-letter_only_re = _lazy_re_compile(r"^[^\W\d_]+$")
-validate_only_letters = RegexValidator(
-    letter_only_re,
-    _("Enter a valid string value consisting of only letters."),
+letter_only_or_space_re = _lazy_re_compile(r"^([^\W\d_]| )+$")
+validate_only_letters_or_space = RegexValidator(
+    letter_only_or_space_re,
+    _("Enter a valid string value consisting of only letters or space."),
+    "invalid",
+)
+
+letter_or_blank_space_re = _lazy_re_compile(r"^([^\W\d]| )+$")
+validate_letter_or_blank_space = RegexValidator(
+    letter_or_blank_space_re,
+    _("Enter a valid string value consisting of only letters or blank space."),
     "invalid",
 )
 

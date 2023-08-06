@@ -1,29 +1,52 @@
 from django.urls import include, path
-from djoser.views import UserViewSet
 from rest_framework import routers
 
-from .views import (
-    CategoryIncomeViewSet,
-    CategoryViewSet,
-    IncomeViewSet,
+from api.views import (
+    BudgetCategoryViewSet,
+    BudgetFinanceViewSet,
+    BudgetTransactionViewSet,
+    CategoryIconViewSet,
+    FinanceHandBookViewSet,
     MoneyBoxViewSet,
-    SpendViewSet,
+    ReapeatSpendViewSet,
+    StatisticsTransactionViewSet,
+    TotalBudgetInfoViewSet,
+    TransferFinanceViewSet,
 )
 
 app_name = "api"
 
 router_v1 = routers.DefaultRouter()
-router_v1.register("users", UserViewSet, basename="users")
-router_v1.register("moneybox", MoneyBoxViewSet, basename="moneyboxs")
-router_v1.register("income", IncomeViewSet, basename="incomes")
 router_v1.register(
-    "categoryincome", CategoryIncomeViewSet, basename="category_incomes"
+    "category/icons", CategoryIconViewSet, basename="category_icons"
 )
-router_v1.register("categories", CategoryViewSet, basename="categories")
-router_v1.register("spends", SpendViewSet, basename="spends")
-
+router_v1.register(
+    "category", BudgetCategoryViewSet, basename="budget_category"
+)
+router_v1.register(
+    "finance/handbook", FinanceHandBookViewSet, basename="finance_handbook"
+)
+router_v1.register(
+    "finance", TransferFinanceViewSet, basename="transfers_finance"
+)
+router_v1.register("finance", BudgetFinanceViewSet, basename="budget_finance")
+router_v1.register(
+    "transaction", BudgetTransactionViewSet, basename="budget_transactions"
+)
+router_v1.register(
+    "reapeatspend", ReapeatSpendViewSet, basename="budget_reapeat_spend"
+)
+router_v1.register("moneybox", MoneyBoxViewSet, basename="budget_money_box")
+router_v1.register(
+    "info/analytics", TotalBudgetInfoViewSet, basename="budget_analytics"
+)
+router_v1.register(
+    "info/statistics",
+    StatisticsTransactionViewSet,
+    basename="budget_statistics",
+)
 urlpatterns = [
     path("", include(router_v1.urls)),
-    # path('auth/', include('djoser.urls')),
-    path("auth/", include("djoser.urls.authtoken")),
+    path("users/", include("users.urls")),
+    path("auth/", include("users.urls.authtoken")),
 ]

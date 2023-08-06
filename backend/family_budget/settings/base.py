@@ -8,7 +8,10 @@ load_dotenv()
 
 DEBUG = False
 
-ALLOWED_HOSTS = ["127.0.0.1", "localhost",]
+ALLOWED_HOSTS = [
+    "127.0.0.1",
+    "localhost",
+]
 
 BASE_DIR = Path(__file__).resolve(strict=True).parent.parent.parent
 
@@ -33,6 +36,7 @@ INSTALLED_APPS = [
     "budget.apps.BudgetConfig",
     "api.apps.ApiConfig",
     "corsheaders",
+    "colorfield",
 ]
 
 MIDDLEWARE = [
@@ -90,6 +94,12 @@ AUTH_PASSWORD_VALIDATORS = [
     {
         "NAME": "django.contrib.auth.password_validation.NumericPasswordValidator",
     },
+    {
+        "NAME": "users.validators.MaximumLengthValidator",
+    },
+    {
+        "NAME": "users.validators.PasswordCharValidator",
+    },
 ]
 
 LANGUAGE_CODE = "ru"
@@ -115,34 +125,38 @@ AUTH_USER_MODEL = "users.User"
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 REST_FRAMEWORK = {
-    'DEFAULT_PERMISSION_CLASSES': [
-        'rest_framework.permissions.IsAuthenticated',
+    "DEFAULT_PERMISSION_CLASSES": [
+        "rest_framework.permissions.IsAuthenticated",
     ],
-    'DEFAULT_AUTHENTICATION_CLASSES': [
-        'rest_framework.authentication.TokenAuthentication',
+    "DEFAULT_AUTHENTICATION_CLASSES": [
+        "rest_framework.authentication.TokenAuthentication",
     ],
-    'DEFAULT_RENDERER_CLASSES': [
-        'rest_framework.renderers.JSONRenderer',
-        'rest_framework.renderers.BrowsableAPIRenderer',
+    "DEFAULT_RENDERER_CLASSES": [
+        "rest_framework.renderers.JSONRenderer",
+        "rest_framework.renderers.BrowsableAPIRenderer",
     ],
-    'DEFAULT_FILTER_BACKENDS': [
+    "DEFAULT_FILTER_BACKENDS": [
         "django_filters.rest_framework.DjangoFilterBackend",
     ],
-    'DEFAULT_PAGINATION_CLASS': "rest_framework.pagination.LimitOffsetPagination",
-    'PAGE_SIZE': 10,
-    'DATETIME_FORMAT': "%Y-%m-%dT%H:%M:%S",
-    'DEFAULT_SCHEMA_CLASS': "drf_spectacular.openapi.AutoSchema",
-    'TEST_REQUEST_DEFAULT_FORMAT': "json",
-    'EXCEPTION_HANDLER': 'core.exceptions.core_exception_handler',
+    "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.LimitOffsetPagination",
+    "PAGE_SIZE": 10,
+    "DATETIME_FORMAT": "%Y-%m-%dT%H:%M:%S",
+    "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
+    "TEST_REQUEST_DEFAULT_FORMAT": "json",
+    "EXCEPTION_HANDLER": "core.exceptions.core_exception_handler",
 }
 
 DJOSER = {
     "LOGIN_FIELD": "username",
     "HIDE_USERS": False,
+    "SET_PASSWORD_RETYPE": True,
+    "LOGOUT_ON_PASSWORD_CHANGE": True,
     "SERIALIZERS": {
-        "user_create": "api.serializers.UserSerializer",
-        "user": "api.serializers.UserSerializer",
-        "current_user": "api.serializers.UserSerializer",
+        "user_create": "api.serializers.CustomUserCreateSerializer",
+        "user": "api.serializers.CustomUserSerializer",
+        "current_user": "api.serializers.CustomUserSerializer",
+        "user_delete": "api.serializers.CustomDeleteUserSerializer",
+        "token": "api.serializers.CustomTokenSerializer",
     },
     "PERMISSIONS": {
         "user": ("rest_framework.permissions.IsAuthenticated",),
