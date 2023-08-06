@@ -75,15 +75,17 @@ jobs:
           host: ${{ secrets.HOST }}
           username: ${{ secrets.USER }}
           key: ${{ secrets.SSH_KEY }}
-          passphrase: ${{ secrets.PASSPHRASE }}
           script: |
-            echo ALLOWED_HOSTS=${{ secrets.ALLOWED_HOSTS }} > .env
+            echo PRODUCTION_HOSTS=${{ secrets.PRODUCTION_HOSTS }} > .env
             echo DB_ENGINE=${{ secrets.DB_ENGINE }} >> .env
             echo DB_NAME=${{ secrets.PROD_DB_NAME }} >> .env
             echo POSTGRES_USER=${{ secrets.PROD_POSTGRES_USER }} >> .env
             echo POSTGRES_PASSWORD=${{ secrets.PROD_POSTGRES_PASSWORD }} >> .env
             echo DB_HOST=${{ secrets.PROD_DB_HOST }} >> .env
             echo DB_PORT=${{ secrets.PROD_DB_PORT }} >> .env
+            echo PGADMIN_DEFAULT_EMAIL=${{ secrets.PGADMIN_DEFAULT_EMAIL }} >> .env
+            echo PGADMIN_DEFAULT_PASSWORD=${{ secrets.PGADMIN_DEFAULT_PASSWORD }} >> .env
+            echo PGADMIN_LISTEN_PORT=${{ secrets.PGADMIN_LISTEN_PORT }} >> .env
             sudo docker pull ${{ secrets.PROD_BACKEND_IMAGE }}
             sudo docker pull ${{ secrets.PROD_FRONTEND_IMAGE }}
             sudo docker-compose down
