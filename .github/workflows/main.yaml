@@ -77,7 +77,7 @@ jobs:
           key: ${{ secrets.SSH_KEY }}
           passphrase: ${{ secrets.PASSPHRASE }}
           script: |
-            echo ALLOWED_HOSTS=${{ secrets.ALLOWED_HOSTS }} > .env
+            echo PRODUCTION_HOSTS=${{ secrets.PRODUCTION_HOSTS }} > .env
             echo DB_ENGINE=${{ secrets.DB_ENGINE }} >> .env
             echo DB_NAME=${{ secrets.PROD_DB_NAME }} >> .env
             echo POSTGRES_USER=${{ secrets.PROD_POSTGRES_USER }} >> .env
