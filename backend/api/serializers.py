@@ -13,7 +13,11 @@ from drf_extra_fields.fields import Base64ImageField
 from rest_framework import serializers
 from rest_framework.exceptions import ValidationError
 
-from api.fields import CurrentBudgetDefault, PrimaryKey404RelatedField
+from api.fields import (
+    CurrentBudgetDefault,
+    LookupBugetRelatedField,
+    PrimaryKey404RelatedField,
+)
 from budget.models import (
     Budget,
     BudgetCategory,
@@ -188,7 +192,7 @@ class TransferFinanceSerializer(serializers.Serializer):
 
     def validate(self, data):
         """Валидация трансфера счетов."""
-        if data["amount"] < 0:
+        if data["amount"] <= 0:
             raise serializers.ValidationError(
                 _("The amount for the transfer must be greater than zero!")
             )
@@ -263,8 +267,8 @@ class TransactionWriteSerializer(BaseTransactionSerializer):
     category = PrimaryKey404RelatedField(
         queryset=BudgetCategory.objects.all(),
     )
-    finance = PrimaryKey404RelatedField(
-        queryset=BudgetFinance.objects.all(),
+    finance = LookupBugetRelatedField(
+        queryset=BudgetFinance.objects.all(), lookup_field="finance"
     )
 
 
@@ -351,3 +355,29 @@ class BudgetParamsSerializer(serializers.Serializer):
     categories = PrimaryKey404RelatedField(
         queryset=BudgetCategory.objects.all(), required=False, many=True
     )
+
+
+class StatisticsTransactionSerializer(BaseTransactionSerializer):
+    """Сериализатор статистики транзакций."""
+
+    def to_representation(self, transaction):
+        """Возвращает информацию по транзакции."""
+        category = BudgetCategorySerializer(
+            instance=transaction.category, context=self.context
+        ).data
+        transaction_info = {
+            "color": category["color"],
+            "icon": category["image"],
+            "created": transaction.created,
+        }
+        if transaction.amount < 0:
+            transaction_info["amount"] = -transaction.amount
+            transaction_info["income"] = 0
+            transaction_info["amountcategory"] = category["name"]
+            transaction_info["incomecategory"] = None
+        else:
+            transaction_info["amount"] = 0
+            transaction_info["income"] = transaction.amount
+            transaction_info["amountcategory"] = None
+            transaction_info["incomecategory"] = category["name"]
+        return transaction_info

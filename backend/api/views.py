@@ -1,10 +1,16 @@
 from django.contrib.auth import get_user_model
 from django.shortcuts import get_object_or_404
+from drf_spectacular.utils import (
+    OpenApiExample,
+    extend_schema,
+    extend_schema_view,
+)
 from rest_framework import mixins, status, viewsets
 from rest_framework.decorators import action
 from rest_framework.response import Response
 from rest_framework.viewsets import ReadOnlyModelViewSet
 
+from api.filters import TransactionDateFromToRangeFilter
 from api.serializers import (
     BudgetCategorySerializer,
     BudgetFinanceSerializer,
@@ -15,6 +21,7 @@ from api.serializers import (
     MoneyBoxSerializer,
     ReapeatSpendReadSerializer,
     ReapeatSpendWriteSerializer,
+    StatisticsTransactionSerializer,
     TotalBudgetInfoSerializer,
     TransactionReadSerializer,
     TransactionWriteSerializer,
@@ -30,6 +37,7 @@ from budget.models import (
     MoneyBox,
     ReapeatSpend,
 )
+from django_filters.rest_framework import DjangoFilterBackend
 
 User = get_user_model()
 
@@ -204,3 +212,37 @@ class TotalBudgetInfoViewSet(mixins.ListModelMixin, viewsets.GenericViewSet):
                 ]
             ).distinct()
         return queryset
+
+
+@extend_schema_view(
+    list=extend_schema(
+        summary="Список транзакций за период",
+        examples=[
+            OpenApiExample(
+                "Статистика по транзакциям",
+                description="Возвращает список транзакций для статистики",
+                value={
+                    "amount": 0,
+                    "income": 1500,
+                    "amountCategory": "Продукты",
+                    "incomeCategory": None,
+                    "color": "#12345A",
+                    "icon": "some_icon",
+                    "created": "2023-07-14T12:11:29.714Z",
+                },
+                status_codes=[str(status.HTTP_200_OK)],
+            ),
+        ],
+    ),
+)
+class StatisticsTransactionViewSet(
+    mixins.ListModelMixin,
+    BudgetBaseViewSet,
+):
+    """Статистика по транзакциям."""
+
+    queryset = FinanceTransaction.objects.all()
+    serializer_class = StatisticsTransactionSerializer
+    pagination_class = None
+    filter_backends = [DjangoFilterBackend]
+    filterset_class = TransactionDateFromToRangeFilter
