@@ -84,7 +84,6 @@ jobs:
           key: ${{ secrets.SSH_KEY }}
           password: ${{ secrets.PASSPHRASE }}
           script: |
-            echo $PASSWORD
             echo PRODUCTION_HOSTS=${{ secrets.PRODUCTION_HOSTS }} > .env
             echo DB_ENGINE=${{ secrets.DB_ENGINE }} >> .env
             echo DB_NAME=${{ secrets.DB_NAME }} >> .env
@@ -95,11 +94,12 @@ jobs:
             echo PGADMIN_DEFAULT_EMAIL=${{ secrets.PGADMIN_DEFAULT_EMAIL }} >> .env
             echo PGADMIN_DEFAULT_PASSWORD=${{ secrets.PGADMIN_DEFAULT_PASSWORD }} >> .env
             echo PGADMIN_LISTEN_PORT=${{ secrets.PGADMIN_LISTEN_PORT }} >> .env
-            sudo -S docker pull ${{ secrets.PROD_BACKEND_IMAGE }}
-            sudo -S docker pull ${{ secrets.PROD_FRONTEND_IMAGE }}
-            sudo -S docker-compose down
-            sudo -S docker-compose up -d
-            sudo -S docker image prune -a -f
+            echo $PASSWORD | sudo -S -v
+            sudo docker pull ${{ secrets.PROD_BACKEND_IMAGE }}
+            sudo docker pull ${{ secrets.PROD_FRONTEND_IMAGE }}
+            sudo docker-compose down
+            sudo docker-compose up -d
+            sudo docker image prune -a -f
 
   send_message:
       name: Send message telegram
