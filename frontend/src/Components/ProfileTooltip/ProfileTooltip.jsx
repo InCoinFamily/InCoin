@@ -21,15 +21,18 @@ export default function ProfileTooltip({ onClose }) {
 
   return (
     <div className="profile-tooltip">
-      <div className="profile-tooltip__user-data">
-        <img
-          src={avatar === null ? defaultAvatar : avatar}
-          className="profile-tooltip__user-icon"
-          alt="Аватар"
-        />
-        <p className="profile-tooltip__user-name">
-          {first_name} {last_name}
-        </p>
+      <div className="profile-tooltip__row">
+        <div className="profile-tooltip__user-data">
+          <img
+            src={avatar === null ? defaultAvatar : avatar}
+            className="profile-tooltip__user-icon"
+            alt="Аватар"
+          />
+          <p className="profile-tooltip__user-name">
+            {first_name} {last_name}
+          </p>
+        </div>
+
         <Button
           type="submit"
           variant="secondary"
