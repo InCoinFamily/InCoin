@@ -61,7 +61,7 @@ cd infra
 
 ```
 # Доменное имя
-ALLOWED_HOSTS=example.org
+PRODUCTION_HOSTS=example.org
 # Указываем, что работаем с postgresql
 DB_ENGINE=django.db.backends.postgresql
 # Имя базы данных
