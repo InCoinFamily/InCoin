@@ -111,7 +111,7 @@ jobs:
 
       - name: check result
         run: |
-          if [[ ${{ steps.send.outputs.status }} != *"ok":true* ]]; then
+          if [[ ${{ steps.send.status }} != *"ok":true* ]]; then
             echo "send is failed"
             exit 1
           fi
