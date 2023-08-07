@@ -104,9 +104,15 @@ jobs:
       runs-on: ubuntu-20.04
       needs: deploy
       steps:
-      - name: send message
-        uses: appleboy/telegram-action@master
-        with:
-          to: ${{ secrets.TELEGRAM_TO }}
-          token: ${{ secrets.TELEGRAM_TOKEN }}
-          message: ${{ github.workflow }} - размещение нового релиза на продакшене успешно выполнено!!!
+      - name: curl telegram message
+        id: send
+        run: |
+          echo "status=$(curl -L "https://api.telegram.org/bot${{ secrets.TELEGRAM_TOKEN }}/sendMessage" -H "Content-Type: application/json" -d "{\"chat_id\": \"-864250646\", \"text\": \"Деплой новой версии сервиса завершен успешено\!\"}")"
+
+      - name: check result
+        run: |
+          if [[ ${{ steps.send.outputs.status }} != *"ok":true* ]]; then
+            echo "send is failed"
+            exit 1
+          fi
+          echo "It's OK"
