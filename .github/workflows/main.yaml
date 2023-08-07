@@ -109,9 +109,11 @@ jobs:
           run: >
             echo "::set-output name=status::$(curl -L "https://api.telegram.org/bot${{ secrets.TELEGRAM_TOKEN }}/sendMessage"
             -H "Content-Type: application/json"
-            -d "{\"chat_id\": \"-864250646\", \"text\": \"Деплой новой версии сервиса завершен успешено\!\"}")"
-        - name: Use prior output
-          run: echo "The count was ${{ steps.tgresult.outputs.status }}"
+            -d "{
+              \"chat_id\": \"${{ secrets.TELEGRAM_CHAT_ID }}\",
+              \"message_thread_id\": \"${{ secrets.TELEGRAM_MESSAGE_THREAD_ID }}\",
+              \"text\": \"${{ secrets.TELEGRAM_TEXT }}\"
+            }")"
         - name: check result
           run: |
             if [[ ${{ steps.tgresult.outputs.status }} != *"ok":true* ]]; then
