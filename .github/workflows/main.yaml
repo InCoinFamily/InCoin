@@ -107,7 +107,10 @@ jobs:
       - name: curl telegram message
         id: send
         run: |
-          echo "status=$(curl -L "https://api.telegram.org/bot${{ secrets.TELEGRAM_TOKEN }}/sendMessage" -H "Content-Type: application/json" -d "{\"chat_id\": \"-864250646\", \"text\": \"Деплой новой версии сервиса завершен успешено\!\"}")"
+          echo "status=$(/
+          curl -L "https://api.telegram.org/bot${{ secrets.TELEGRAM_TOKEN }}/sendMessage" /
+          -H "Content-Type: application/json" /
+          -d "{\"chat_id\": \"-864250646\", \"text\": \"Деплой новой версии сервиса завершен успешено\!\"}")" >> $GITHUB_OUTPUT
 
       - name: check result
         run: |
