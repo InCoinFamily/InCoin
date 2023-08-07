@@ -106,7 +106,7 @@ jobs:
       steps:
       - name: curl telegram message
         id: send
-        run: |
+        run: >
           echo "::set-output name=status=$(
           curl -L "https://api.telegram.org/bot${{ secrets.TELEGRAM_TOKEN }}/sendMessage"
           -H "Content-Type: application/json"
