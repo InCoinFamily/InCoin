@@ -1,5 +1,7 @@
+/* eslint-disable consistent-return */
 import { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import './Home.scss';
 import InfoPopup from '../../Components/InfoPopup/InfoPopup';
 import СonfirmationPasswordChange from '../../Components/СonfirmationPasswordChange/СonfirmationPasswordChange';
@@ -15,10 +17,12 @@ import usePopup from '../../utils/hooks/usePopup';
 
 export default function Main() {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const { isOpen: isInfoPopupOpen, closePopup: closeInfoPopup } = usePopup('info');
   const { openPopup: openRegisterPopup } = usePopup('register');
 
+  const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
   const isFetched = useSelector((state) => state.account.isFetched);
 
   useEffect(() => {
@@ -27,7 +31,13 @@ export default function Main() {
     }
   }, [dispatch, isFetched]);
 
-  const handleRegisterClick = () => openRegisterPopup;
+  const handleStartClick = () => {
+    if (isAuthenticated) {
+      navigate('/budget');
+    } else {
+      openRegisterPopup();
+    }
+  };
 
   return (
     <section className="home-page">
@@ -36,13 +46,13 @@ export default function Main() {
         <p className="home-page__description">
           Отслеживай свои расходы и будь в&nbsp;курсе своего финансового состояния
         </p>
-
         <Button
           variant="primary"
           content="text"
-          text="Зарегистрироваться"
+          text={isAuthenticated ? 'Начать' : 'Зарегистрироваться'}
           size="large"
-          onClick={handleRegisterClick}
+          extraClass={isAuthenticated ? 'home-page__button' : ''}
+          onClick={handleStartClick}
         />
       </div>
 
@@ -81,13 +91,14 @@ export default function Main() {
           })}
         </ul>
         <h3 className="home-page__text-bold">Готовы начать контролировать бюджет?</h3>
+
         <Button
           variant="primary"
           content="text"
           text="Начать"
           size="large"
           extraClass="home-page__button"
-          onClick={handleRegisterClick}
+          onClick={handleStartClick}
         />
       </div>
       {isInfoPopupOpen && (

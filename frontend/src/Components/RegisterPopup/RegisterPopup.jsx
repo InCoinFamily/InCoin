@@ -3,8 +3,10 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Tooltip } from 'react-tooltip';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
+import { useNavigate } from 'react-router-dom';
 import Popup from '../Popup/Popup';
 import { registerUser } from '../../store/slices/accountSlice';
+import { loginUser } from '../../store/slices/authSlice';
 import registerValidation from '../../utils/validations/registerValidation';
 import Loader from '../Loader/Loader';
 import Eye from '../../ui/Eye/Eye';
@@ -19,8 +21,11 @@ import usePopup from '../../utils/hooks/usePopup';
 
 export default function RegisterPopup({ onClose }) {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const { openPopup: openLoginPopup } = usePopup('login');
+
+  const { closePopup: closeRegisterPopup } = usePopup('register');
 
   // Configuration to add Eye component
   const [eyes, setEyes] = useState([false, false, false]);
@@ -30,7 +35,7 @@ export default function RegisterPopup({ onClose }) {
     setEyes(newEyesValues);
   };
 
-  const { data: isRegistration, loading: isLoading } = useSelector((state) => state.account);
+  const { loading: isLoading } = useSelector((state) => state.account);
 
   const handleLoginClick = () => {
     onClose();
@@ -42,13 +47,36 @@ export default function RegisterPopup({ onClose }) {
     userData.email = userData.email.trim();
     userData.first_name = userData.first_name.trim();
     userData.last_name = userData.last_name.trim();
-    dispatch(registerUser(userData));
-  };
 
-  if (isRegistration) {
-    onClose();
-    openLoginPopup();
-  }
+    dispatch(registerUser(userData))
+      .then((registrationResponse) => {
+        if (registrationResponse?.error) {
+          console.log('Ошибка при регистрации:', registrationResponse.error);
+        } else {
+          const loginData = {
+            username: userData.username,
+            password: userData.password,
+          };
+
+          dispatch(loginUser(loginData))
+            .then((loginResponse) => {
+              console.log(loginResponse);
+              if (loginResponse?.payload?.auth_token) {
+                closeRegisterPopup();
+                navigate('/budget');
+              } else {
+                console.log('Ошибка при авторизации');
+              }
+            })
+            .catch((error) => {
+              console.log('Ошибка при авторизации:', error);
+            });
+        }
+      })
+      .catch((error) => {
+        console.log('Ошибка при регистрации:', error);
+      });
+  };
 
   const {
     register,
@@ -61,11 +89,11 @@ export default function RegisterPopup({ onClose }) {
     resolver: yupResolver(registerValidation, { criteriaMode: 'all' }),
   });
 
-  const onBlur = (evt) =>{
+  const onBlur = (evt) => {
     const fieldName = evt.target.name;
     const trimmedValue = evt.target.value.trim();
     setValue(fieldName, trimmedValue);
-  }
+  };
   const password = useRef({});
   password.current = watch('password', '');
 
