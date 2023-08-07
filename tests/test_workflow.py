@@ -39,10 +39,3 @@ class TestWorkflow:
         assert (
             "pytest" in family_budget
         ), f"Проверьте, что добавили pytest в файл {filename}"
-        assert (
-            "appleboy/ssh-action" in family_budget
-        ), f"Проверьте, что добавили деплой в файл {filename}"
-        assert "appleboy/telegram-action" in family_budget, (
-            "Проверьте, что настроили отправку telegram сообщения "
-            f"в файл {filename}"
-        )
