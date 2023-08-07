@@ -107,14 +107,14 @@ jobs:
       - name: curl telegram message
         id: send
         run: |
-          echo "status=$(/
+          echo "::set-output name=status=$(/
           curl -L "https://api.telegram.org/bot${{ secrets.TELEGRAM_TOKEN }}/sendMessage" /
           -H "Content-Type: application/json" /
           -d "{\"chat_id\": \"-864250646\", \"text\": \"Деплой новой версии сервиса завершен успешено\!\"}")" >> $GITHUB_OUTPUT
 
       - name: check result
         run: |
-          if [[ ${{ steps.send.status }} != *"ok":true* ]]; then
+          if [[ ${{ steps.send.outputs.status }} != *"ok":true* ]]; then
             echo "send is failed"
             exit 1
           fi
