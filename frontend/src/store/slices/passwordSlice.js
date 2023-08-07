@@ -4,7 +4,7 @@ import { getCookie, deleteCookie } from '../../utils/cookies';
 
 export const changePasswordAPI = async (formData) => {
   try {
-    const response = await fetch('https://familybudget.ddns.net/api/users/set_password/', {
+    const response = await fetch('https://budgetfamily.ru/api/users/set_password/', {
       method: 'POST',
       headers: {
         authorization: `Token ${getCookie('token')}`,
