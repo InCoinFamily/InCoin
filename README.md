@@ -20,51 +20,31 @@ InCoin предоставляет возможность установить п
 
 Для более удобной и надежной разработки, мы предоставляем инструкции по созданию Docker контейнеров для приложения. Это позволяет быстро развернуть приложение в однородной среде и минимизировать возможные конфликты зависимостей.
 
-- Предварительные требования:
-  - _Poetry_  
-зависимости и пакеты управляются через **poetry**. Убедитесь, что **poetry** [установлен](https://python-poetry.org/docs/#osx--linux--bashonwindows-install-instructions) на вашем компьютере и ознакомьтесь с [документацией](https://python-poetry.org/docs/cli/).
+- Предварительные требования:  
+  - **Poetry** (управление зависимостями и пакетами)  
+убедитесь, что [Poetry установлен](https://python-poetry.org/docs/#osx--linux--bashonwindows-install-instructions) на вашем компьютере и [ознакомьтесь с документацией](https://python-poetry.org/docs/cli/)
+  - **Docker**
+  - **файлы requirements** (обновление происходит автоматически через _pre-commit хуки_, редактирование вручную не требуется)
+  - **хуки pre-commit**  
+[ознакомьтесь с документацией](https://pre-commit.com)
+при каждом коммите выполняются хуки перечисленные в _.pre-commit-config.yaml_, если возникла ошибка, запустите хуки вручную: `pre-commit run --all-files`
 ```
-- Устанавливаем Poetry версия 1.4.0
-    curl -sSL https://install.python-poetry.org | python - --version 1.4.0
-- Добавляем Poetry в переменную среды PATH
-    "$HOME/.local/bin" для Unix.
-    "%APPDATA%\Python\Scripts" для Windows.
+# Установка Poetry версии 1.4.0
+  curl -sSL https://install.python-poetry.org | python - --version 1.4.0
+# Добавление Poetry в переменную среды PATH
+# Для Unix:
+  "$HOME/.local/bin"
+# Для Windows:
+  "%APPDATA%\Python\Scripts" для Windows.
 ```
-2. **Docker**
-3. Файлы **requirements** \
-Файлы редактировать вручную не нужно. Обновление происходит автоматически через pre-commit хуки.
-4. **pre-commit хуки** \
-[Документация](https://pre-commit.com)\
-При каждом коммите выполняются хуки перечисленные в **.pre-commit-config.yaml**.
-Если при коммите возникает ошибка, можно запустить хуки вручную:
-    ```
-    pre-commit run --all-files
-    ```
-
-### Запуск проекта:
-1. Клонировать репозиторий и перейти в него в командной строке:
-    ```
-    git clone git@github.com:InCoinFamily/InCoin.git
-    cd InCoin
-    ```
-2. Убедитесь что poetry установлен. Активируйте виртуальное окружение. Установите зависимости
-    ```
-    poetry shell
-    poetry install
-    ```
-3. Сделайте миграции
-    ```
-    python manage.py migrate
-    ```
-4. Установите pre-commit хуки
-    ```
-    pre-commit install --all
-    ```
-5. Убедитесь, что при запуске используется правильное виртуальное окружение.
-Посмотреть путь можно следующей командой:
-    ```
-    poetry env info --path
-    ```
+- Запуск проекта: 
+  - клонирование репозитория: `git clone git@github.com:InCoinFamily/InCoin.git`
+  - переход в папку проекта: `cd InCoin`
+  - активация виртуального окружения: `poetry shell`
+  - установка необходимых зависимостей: `poetry install`
+  - миграция базы данных: `python manage.py migrate`
+  - установка хуков pre-commit: `pre-commit install --all`
+  - убедитесь, что при запуске используется правильное виртуальное окружение (посмотреть путь): `poetry env info --path`
 
 ### Создание Docker контейнеров:
 Перейти в директорию infra:
