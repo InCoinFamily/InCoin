@@ -118,18 +118,18 @@ InCoin предоставляет возможность установить п
 
 #### Технологии:
 
-<img src="https://simpleicons.org/icons/git.svg" alt="git" width="50" height="50"/> <img src="https://simpleicons.org/icons/github.svg" alt="github" width="50" height="50"/> <img src="https://simpleicons.org/icons/postman.svg" alt="postman" width="50" height="50"/> <img src="https://simpleicons.org/icons/swagger.svg" alt="swagger" width="50" height="50"/>
+<img src="https://simpleicons.org/icons/git.svg" alt="git" width="50" height="50"/> <img src="https://simpleicons.org/icons/github.svg" alt="github" width="50" height="50"/> <img src="https://simpleicons.org/icons/postman.svg" alt="postman" width="50" height="50"/> <img src="https://simpleicons.org/icons/swagger.svg" alt="swagger" width="50" height="50"/> <img src="https://simpleicons.org/icons/figma.svg" alt="figma" width="50" height="50"/>
  
 - _Backend_
 
 <img src="https://simpleicons.org/icons/python.svg" alt="python" width="50" height="50"/> <img src="https://simpleicons.org/icons/django.svg" alt="django" width="50" height="50"/>
-<img src="https://simpleicons.org/icons/postgresql.svg" alt="postgresql" width="50" height="50"/>  <img src="https://simpleicons.org/icons/docker.svg" alt="docker" width="50" height="50"/> <img src="https://simpleicons.org/icons/nginx.svg" alt="nginx" width="50" height="50"/> <img src="https://simpleicons.org/icons/gunicorn.svg" alt="gunicorn" width="50" height="50"/>
+<img src="https://simpleicons.org/icons/postgresql.svg" alt="postgresql" width="50" height="50"/>  <img src="https://simpleicons.org/icons/docker.svg" alt="docker" width="50" height="50"/> <img src="https://simpleicons.org/icons/gunicorn.svg" alt="gunicorn" width="50" height="50"/> 
  
 - _Frontend_
     
 <img src="https://simpleicons.org/icons/react.svg" alt="react" width="50" height="50"/> <img src="https://simpleicons.org/icons/redux.svg" alt="redux" width="50" height="50"/>
-<img src="https://simpleicons.org/icons/sass.svg" alt="scss" width="50" height="50"/>  <img src="https://simpleicons.org/icons/prettier.svg" alt="prettier" width="50" height="50"/> 
-<img src="https://simpleicons.org/icons/figma.svg" alt="figma" width="50" height="50"/> 
+<img src="https://simpleicons.org/icons/sass.svg" alt="scss" width="50" height="50"/>  <img src="https://simpleicons.org/icons/prettier.svg" alt="prettier" width="50" height="50"/> <img src="https://simpleicons.org/icons/eslint.svg" alt="eslint" width="50" height="50"/>
+ 
 
 #### Не упустите шанс улучшить свои финансовые навыки с помощью InCoin!
 * [Попробуйте сейчас!](https://budgetfamily.ru/)
