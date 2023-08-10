@@ -115,3 +115,6 @@ InCoin предоставляет возможность установить п
   - выполните миграции: `docker-compose exec backend python manage.py migrate`
   - создайте суперпользователя: `docker-compose exec backend python manage.py createsuperuser`
   - собирите статику проекта: `docker-compose exec backend python manage.py collectstatic --no-input`
+
+#### Не упустите шанс улучшить свои финансовые навыки с помощью InCoin!
+* [Попробуйте сейчас!](https://budgetfamily.ru/)
