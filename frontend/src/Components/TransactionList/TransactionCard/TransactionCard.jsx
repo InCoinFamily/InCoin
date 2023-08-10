@@ -30,7 +30,7 @@ export default function TransactionCard({ transaction }) {
     return null;
   }
 
-  const { id, name, finance, amount, category } = transaction;
+  const { name, finance, amount, category } = transaction;
 
   const categoryTypeStyles = {
     1: { mathSign: '-', amountStyle: 'card__amount_spending', text: 'расход' },
@@ -42,13 +42,15 @@ export default function TransactionCard({ transaction }) {
 
   const handleDeleteTransactionClick = (evt) => {
     evt.preventDefault();
+    setSelectedTransaction(transaction);
     openConfirmationPopup();
   };
 
   const handleDelete = () => {
-    dispatch(deleteTransaction(id)).then(() => {
+    dispatch(deleteTransaction(selectedTransaction.id)).then(() => {
       dispatch(fetchTransactionList());
     });
+    setSelectedTransaction(null);
   };
 
   const handleEdit = () => {
@@ -74,6 +76,11 @@ export default function TransactionCard({ transaction }) {
     dispatch(addTransaction(newTransactionData)).then(() => {
       dispatch(fetchTransactionList());
     });
+  };
+
+  const handleConfirmationTransactionPopupClose = () => {
+    setSelectedTransaction(null);
+    closeConfirmationPopup();
   };
 
   return (
@@ -126,11 +133,11 @@ export default function TransactionCard({ transaction }) {
           categoryType={transaction.category_type}
         />
       )}
-      {isConfirmationPopupOpen && (
+      {isConfirmationPopupOpen && selectedTransaction && (
         <ConfirmationPopup
-          onClose={closeConfirmationPopup}
+          onClose={handleConfirmationTransactionPopupClose}
           onSubmit={handleDelete}
-          confirmationText={`Вы действительно хотите удалить ${text} «${transaction.name}» ?`}
+          confirmationText={`Вы действительно хотите удалить ${text} «${selectedTransaction.name}» ?`}
           buttonText={text}
         />
       )}
