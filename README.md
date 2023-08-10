@@ -1,4 +1,4 @@
-# InCoin
+<img src="https://budgetfamily.ru/static/media/logo.878f763e39bbd9badd1d83eccd3570c4.svg" alt="InCoin" width="377" height="82"/>&nbsp;
 
 ### Контроль расходов «Семейный бюджет»
 
