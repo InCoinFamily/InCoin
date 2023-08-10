@@ -16,29 +16,27 @@ InCoin предоставляет возможность установить п
 - **Конверты накоплений**  
 Управляйте накоплениями для достижения ваших финансовых целей с помощью функции конвертов. Создайте конверт, определите желаемую сумму, и приложение будет следить за ходом выполнения цели и эффективным использованием средств.
 
-#### Интеграция с Docker:
+#### Установа | разработка | запуск:
 
-Для более удобной и надежной разработки, мы предоставляем инструкции по созданию Docker контейнеров для приложения. Это позволяет быстро развернуть приложение в однородной среде и минимизировать возможные конфликты зависимостей.
-
-- Предварительные требования:  
+- #### Предварительные требования:  
   - **Poetry** (управление зависимостями и пакетами)  
 убедитесь, что [Poetry установлен](https://python-poetry.org/docs/#osx--linux--bashonwindows-install-instructions) на вашем компьютере и [ознакомьтесь с документацией](https://python-poetry.org/docs/cli/)
+    ```
+    # Установка Poetry версии 1.4.0
+      curl -sSL https://install.python-poetry.org | python - --version 1.4.0
+    # Добавление Poetry в переменную среды PATH
+    # Для Unix:
+      "$HOME/.local/bin"
+    # Для Windows:
+      "%APPDATA%\Python\Scripts" для Windows.
+    ```
   - **Docker**
   - **файлы requirements** (обновление происходит автоматически через _pre-commit хуки_, редактирование вручную не требуется)
   - **хуки pre-commit**  
 [ознакомьтесь с документацией](https://pre-commit.com)
 при каждом коммите выполняются хуки перечисленные в _.pre-commit-config.yaml_, если возникла ошибка, запустите хуки вручную: `pre-commit run --all-files`
-```
-# Установка Poetry версии 1.4.0
-  curl -sSL https://install.python-poetry.org | python - --version 1.4.0
-# Добавление Poetry в переменную среды PATH
-# Для Unix:
-  "$HOME/.local/bin"
-# Для Windows:
-  "%APPDATA%\Python\Scripts" для Windows.
-```
-- Запуск проекта: 
-  - клонирование репозитория: `git clone git@github.com:InCoinFamily/InCoin.git`
+- #### Запуск проекта: 
+  - клонирование репозитория: `git clone https://github.com/InCoinFamily/InCoin.git`
   - переход в папку проекта: `cd InCoin`
   - активация виртуального окружения: `poetry shell`
   - установка необходимых зависимостей: `poetry install`
@@ -46,63 +44,31 @@ InCoin предоставляет возможность установить п
   - установка хуков pre-commit: `pre-commit install --all`
   - убедитесь, что при запуске используется правильное виртуальное окружение (посмотреть путь): `poetry env info --path`
 
-### Создание Docker контейнеров:
-Перейти в директорию infra:
-```
-cd infra
-```
-
-Создать файл .env с переменными окружения для работы с базой данных PostgreSQL:
-
-```
-# Доменное имя
-PRODUCTION_HOSTS=example.org
-# Указываем, что работаем с postgresql
-DB_ENGINE=django.db.backends.postgresql
-# Имя базы данных
-DB_NAME=fb
-# Логин для подключения к базе данных
-POSTGRES_USER=postgres
-# Пароль для подключения к БД (установите свой)
-POSTGRES_PASSWORD=postgres
-# Название сервиса (контейнера)
-DB_HOST=db
-# Порт для подключения к БД
-DB_PORT=5432
-```
-Указываем DNS имя сервиса вместо example.org и свой адрес электронной почты:
-
-```
-- в файле init-letsencrypt.sh;
-- в файле data/nginx/app.conf
-```
-
-Создаем и запускаем сервисы приложения:
-
-```
-docker-compose up
-```
-
-Создать базу данных:
-```
-docker exec -it {имя контейнера БД} /bin/bash
-psql -U postgres -c 'create database fb;'
-```
-
-Выполнить миграции:
-
-```
-docker-compose exec backend python manage.py migrate
-```
-
-Создаем суперпользователя:
-
-```
-docker-compose exec backend python manage.py createsuperuser
-```
-
-Собираем статику проекта:
-
-```
-docker-compose exec backend python manage.py collectstatic --no-input
-```
+- #### Создание Docker контейнеров:
+  для обеспечения удобства и надежности разработки, мы предоставляем инструкции по созданию Docker контейнеров для приложения, что позволяет быстро развернуть приложение в однородной среде и минимизировать возможные конфликты зависимостей
+  - перейдите в директорию infra: `cd infra`
+  - создайте файл .env с переменными окружения для работы с базой данных PostgreSQL:
+    ```
+    # Доменное имя
+      PRODUCTION_HOSTS=example.org
+    # Указываем, что работаем с postgresql
+      DB_ENGINE=django.db.backends.postgresql
+    # Имя базы данных
+      DB_NAME=fb
+    # Логин для подключения к базе данных
+      POSTGRES_USER=postgres
+    # Пароль для подключения к БД (установите свой)
+      POSTGRES_PASSWORD=postgres
+    # Название сервиса (контейнера)
+      DB_HOST=db
+    # Порт для подключения к БД
+      DB_PORT=5432
+    ```
+  - указываем DNS имя сервиса вместо example.org и свой адрес электронной почты:
+    - в файле init-letsencrypt.sh;
+    - в файле data/nginx/app.conf
+  - создайте и запустите сервисы приложения: `docker-compose up`
+  - создайте базу данных: `docker exec -it {имя контейнера БД} /bin/bash`, `psql -U postgres -c 'create database fb;'`
+  - выполните миграции: `docker-compose exec backend python manage.py migrate`
+  - создайте суперпользователя: `docker-compose exec backend python manage.py createsuperuser`
+  - собирите статику проекта: `docker-compose exec backend python manage.py collectstatic --no-input`
