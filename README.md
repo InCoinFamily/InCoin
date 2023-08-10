@@ -108,9 +108,12 @@ InCoin предоставляет возможность установить п
   - создайте базу данных:
     - `docker exec -it {имя контейнера БД} /bin/bash`
     - `psql -U postgres -c 'create database fb;'`
-  - выполните миграции: `docker-compose exec backend python manage.py migrate`
-  - создайте суперпользователя: `docker-compose exec backend python manage.py createsuperuser`
-  - собирите статику проекта: `docker-compose exec backend python manage.py collectstatic --no-input`
+  - выполните миграции:  
+    `docker-compose exec backend python manage.py migrate`
+  - создайте суперпользователя:  
+    `docker-compose exec backend python manage.py createsuperuser`
+  - собирите статику проекта:  
+    `docker-compose exec backend python manage.py collectstatic --no-input`
 
 #### Не упустите шанс улучшить свои финансовые навыки с помощью InCoin!
 * [Попробуйте сейчас!](https://budgetfamily.ru/)
