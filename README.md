@@ -56,15 +56,11 @@ InCoin предоставляет возможность установить п
 
 - #### Предварительные требования:  
   - [**Poetry**](https://python-poetry.org/docs/cli/) (используется для управления зависимостями и пакетами)  
-    ```
-    # Установка Poetry версии 1.4.0
-      curl -sSL https://install.python-poetry.org | python - --version 1.4.0
-    # Добавление Poetry в переменную среды PATH
-    # Для Unix:
-      "$HOME/.local/bin"
-    # Для Windows:
-      "%APPDATA%\Python\Scripts" для Windows.
-    ```
+    - Установка Poetry версии 1.4.0  
+      `curl -sSL https://install.python-poetry.org | python - --version 1.4.0`  
+    - Добавление Poetry в переменную среды PATH  
+      для Unix: `"$HOME/.local/bin"`  
+      для Windows: `"%APPDATA%\Python\Scripts"`
   - **Docker** (обеспечивает создание и управление контейнерами)
   - **Файлы requirements** (обновление зависимостей происходит автоматически через _pre-commit хуки_, редактирование вручную не требуется)
   - [**Хуки pre-commit**](https://pre-commit.com) (при каждом коммите выполняются хуки перечисленные в _.pre-commit-config.yaml_, если возникла ошибка, запустите хуки вручную: `pre-commit run --all-files`)
