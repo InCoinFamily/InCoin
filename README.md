@@ -97,5 +97,19 @@ InCoin предоставляет возможность установить п
   - собирите статику проекта: `docker-compose exec backend python manage.py collectstatic --no-input`
 #### О команде:  
   - Project managers
-    - [Кочнев Георгий](https://krasnodar.hh.ru/resume/158364e8ff0b05a3410039ed1f6b3578716a34)
-    - [Серебрянская Дарья](https://cyber-dosa-d28.notion.site/3262193194414073aa6ac3aa927e7c59)
+    - [Георгий Кочнев](https://krasnodar.hh.ru/resume/158364e8ff0b05a3410039ed1f6b3578716a34)
+    - [Дарья Серебрянская](https://cyber-dosa-d28.notion.site/3262193194414073aa6ac3aa927e7c59)
+  - Backend developer
+    - [Андрей Лабутин](https://github.com/agatinet31)
+  - Frontend developers
+    - [Маша Морева](https://github.com/MashaMoreva)
+    - [Алексей Барабанов](https://github.com/VolcharaMastering)
+    - [Любовь Васильева](https://github.com/Luba-web)
+  - Quality Assurance (QA) engineers
+    - [Александра Симонова](https://github.com/AISimonova)
+    - [Гриша Наумов](https://github.com/caligulion)
+    - [Надежда Володина](https://github.com/yareliance)
+  - UI/UX Designers
+    - [Лиза Вольская](https://t.me/balzarylovesgroove)
+    - [Алиса Орлова](https://t.me/aleeseorlova)
+    - [Евгения Бойко](https://t.me/justtjane)
