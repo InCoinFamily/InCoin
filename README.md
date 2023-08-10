@@ -61,9 +61,10 @@ InCoin предоставляет возможность установить п
     - Добавление Poetry в переменную среды PATH  
       для Unix: `"$HOME/.local/bin"`  
       для Windows: `"%APPDATA%\Python\Scripts"`
-  - **Docker** (обеспечивает создание и управление контейнерами)
-  - **Файлы requirements** (обновление зависимостей происходит автоматически через _pre-commit хуки_, редактирование вручную не требуется)
-  - [**Хуки pre-commit**](https://pre-commit.com) (при каждом коммите выполняются хуки перечисленные в _.pre-commit-config.yaml_, если возникла ошибка, запустите хуки вручную: `pre-commit run --all-files`)
+  - [**Docker**](https://www.docker.com/) (обеспечивает создание и управление контейнерами)
+  - [**Файлы requirements.txt**](https://pip.pypa.io/en/stable/user_guide/#requirements-files) (обновление зависимостей происходит автоматически через **pre-commit**)
+  - [**pre-commit**](https://pre-commit.com) (при каждом коммите выполняются хуки перечисленные в  
+    **.pre-commit-config.yaml**, если возникла ошибка, запустите хуки вручную: `pre-commit run --all-files`)
     
 - #### Запуск проекта:
   _Backend_
