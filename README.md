@@ -127,8 +127,7 @@ InCoin предоставляет возможность установить п
  
 - _Frontend_
     
-<img src="https://simpleicons.org/icons/react.svg" alt="react" width="50" height="50"/> <img src="https://simpleicons.org/icons/redux.svg" alt="redux" width="50" height="50"/>
-<img src="https://simpleicons.org/icons/sass.svg" alt="scss" width="50" height="50"/>  <img src="https://simpleicons.org/icons/prettier.svg" alt="prettier" width="50" height="50"/> <img src="https://simpleicons.org/icons/eslint.svg" alt="eslint" width="50" height="50"/>
+<img src="https://simpleicons.org/icons/javascript.svg" alt="javascript" width="50" height="50"/> <img src="https://simpleicons.org/icons/react.svg" alt="react" width="50" height="50"/> <img src="https://simpleicons.org/icons/redux.svg" alt="redux" width="50" height="50"/> <img src="https://simpleicons.org/icons/sass.svg" alt="scss" width="50" height="50"/>  <img src="https://simpleicons.org/icons/prettier.svg" alt="prettier" width="50" height="50"/> 
  
 
 #### Не упустите шанс улучшить свои финансовые навыки с помощью InCoin!
