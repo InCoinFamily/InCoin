@@ -335,7 +335,14 @@ export default function AddItemPopup({ onClose, itemType }) {
           {!isAddingItem && (
             <>
               <CancelButton onClose={onClose} />
-              <Button type="submit" variant="primary" content="text" text="Готово" size="medium" />
+              <Button
+                type="submit"
+                variant="primary"
+                content="text"
+                text="Готово"
+                size="medium"
+                onClick={onClose}
+              />
             </>
           )}
         </div>
