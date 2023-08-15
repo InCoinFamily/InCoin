@@ -65,11 +65,15 @@ export default function Categories() {
         activeInit={activeDate}
         onClick={handleDateClick}
       />
-      <p className="categories__all-text">Выбрать все</p>
+      <div className="categories__all">
+        <Checkbox />
+        <p>Выбрать все</p>
+      </div>
+
       <div className="categories__list">
         {filteredCategories.map((category) => (
           <article key={category.id} className="categories__item">
-            <Checkbox nameProp={`category-${category.id}`} />
+            <Checkbox />
             <img src={category.image} alt={category.name} className="categories__item-image" />
             <p className="categories__item-name">{category.name}</p>
           </article>

@@ -7,15 +7,18 @@
   background: $clearWhite;
   border-radius: 20px;
 
+  &__all {
+    border-bottom: 1px solid $midGrey;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding-bottom: 12px;
+    margin: 20px 0 12px 0;
+  }
+
   &__title {
     @include h3-web;
     margin-bottom: 20px;
-  }
-
-  &__all-text {
-    padding-bottom: 12px;
-    margin: 20px 0 12px 0;
-    border-bottom: 1px solid $midGrey;
   }
 
   &__button {
