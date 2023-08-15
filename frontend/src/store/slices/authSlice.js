@@ -16,6 +16,9 @@ const initialState = {
   isAuthenticated: getCookie('token') ? true : false,
   loading: false,
   error: null,
+  loginFormData: {
+    username: '',
+  },
 };
 
 export const authSlice = createSlice({
@@ -24,6 +27,9 @@ export const authSlice = createSlice({
   reducers: {
     setAuthentication: (state, action) => {
       state.isAuthenticated = action.payload;
+    },
+    updateLoginFormData: (state, action) => {
+      state.loginFormData = action.payload;
     },
   },
   extraReducers: (builder) => {
@@ -55,6 +61,6 @@ export const authSlice = createSlice({
   },
 });
 
-export const { setAuthentication } = authSlice.actions;
+export const { setAuthentication, updateLoginFormData } = authSlice.actions;
 
 export const authReducer = authSlice.reducer;

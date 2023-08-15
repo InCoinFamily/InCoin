@@ -6,7 +6,7 @@ import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import loginValidation from '../../utils/validations/loginValidation';
 import Popup from '../Popup/Popup';
-import { loginUser } from '../../store/slices/authSlice';
+import { loginUser, updateLoginFormData } from '../../store/slices/authSlice';
 import Loader from '../Loader/Loader';
 import Button from '../../ui/Button/Button';
 import Eye from '../../ui/Eye/Eye';
@@ -27,6 +27,7 @@ export default function LoginPopup({ onClose }) {
 
   const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
   const isLoading = useSelector((store) => store.auth.loading);
+  const loginFormData = useSelector((store) => store.auth.loginFormData);
 
   const handleRegistrationClick = () => {
     onClose();
@@ -36,6 +37,14 @@ export default function LoginPopup({ onClose }) {
   const handleLogin = (formData) => {
     formData.username = formData.username.trim();
     dispatch(loginUser(formData));
+    dispatch(updateLoginFormData({ username: '' }));
+  };
+
+  // Обработчик для сохранения данных при закрытии модального окна
+  const handleClose = () => {
+    // Диспатчим updateLoginFormData перед закрытием окна
+    dispatch(updateLoginFormData({ username: loginFormData.username }));
+    onClose();
   };
 
   useEffect(() => {
@@ -52,19 +61,23 @@ export default function LoginPopup({ onClose }) {
   } = useForm({
     mode: 'onChange',
     resolver: yupResolver(loginValidation),
+    defaultValues: {
+      username: loginFormData.username, // Устанавливаем начальное значение поля "Логин"
+    },
   });
 
-  const onBlur = (evt) =>{
+  const onBlur = (evt) => {
     const fieldName = evt.target.name;
     const trimmedValue = evt.target.value.trim();
+    dispatch(updateLoginFormData({ username: trimmedValue }));
     setValue(fieldName, trimmedValue);
-  }
+  };
 
   if (isAuthenticated) {
     return <Navigate to="/budget" />;
   }
   return (
-    <Popup onClose={onClose} popupSize="popup_s" title="Авторизация">
+    <Popup onClose={handleClose} popupSize="popup_s" title="Авторизация">
       <form className="form" onSubmit={handleSubmit(handleLogin)}>
         <div className="form__input-block">
           <label className="form__input-label" htmlFor="LoginPopup-login">
