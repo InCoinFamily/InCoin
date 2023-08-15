@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import './Budget.scss';
 import { getUser } from '../../store/slices/accountSlice';
-import { getInfo } from '../../store/slices/infoSlice';
+// import { getInfo } from '../../store/slices/infoSlice';
 import LeftBlock from '../../Components/LeftBlock/LeftBlock';
 import RightBlock from '../../Components/RightBlock/RightBlock';
 import MainBlock from '../../Components/MainBlock/MainBlock';
@@ -18,9 +18,9 @@ export default function Budget() {
     }
   }, [dispatch, isFetched]);
 
-  useEffect(() => {
-    dispatch(getInfo());
-  }, []);
+  // useEffect(() => {
+  //   dispatch(getInfo());
+  // }, []);
 
   return (
     <section className="budget">
