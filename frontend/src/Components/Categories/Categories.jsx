@@ -7,6 +7,7 @@ import { arrCategoriesСommon } from '../../utils/consts';
 import { getUserCategories } from '../../store/slices/userFinanceAndCategoriesSlice';
 import usePopup from '../../utils/hooks/usePopup';
 import AddItemPopup from '../AddItemPopup/AddItemPopup';
+import Checkbox from '../../ui/Checkbox/Checkbox';
 
 export default function Categories() {
   const dispatch = useDispatch();
@@ -68,11 +69,13 @@ export default function Categories() {
       <div className="categories__list">
         {filteredCategories.map((category) => (
           <article key={category.id} className="categories__item">
+            <Checkbox nameProp={`category-${category.id}`} />
             <img src={category.image} alt={category.name} className="categories__item-image" />
             <p className="categories__item-name">{category.name}</p>
           </article>
         ))}
       </div>
+
       <Button
         variant="secondary"
         content="text"
