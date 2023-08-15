@@ -40,9 +40,7 @@ export default function LoginPopup({ onClose }) {
     dispatch(updateLoginFormData({ username: '' }));
   };
 
-  // Обработчик для сохранения данных при закрытии модального окна
   const handleClose = () => {
-    // Диспатчим updateLoginFormData перед закрытием окна
     dispatch(updateLoginFormData({ username: loginFormData.username }));
     onClose();
   };
@@ -62,7 +60,7 @@ export default function LoginPopup({ onClose }) {
     mode: 'onChange',
     resolver: yupResolver(loginValidation),
     defaultValues: {
-      username: loginFormData.username, // Устанавливаем начальное значение поля "Логин"
+      username: loginFormData.username,
     },
   });
 
