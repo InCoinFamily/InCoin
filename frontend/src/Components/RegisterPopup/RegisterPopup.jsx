@@ -5,7 +5,11 @@ import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useNavigate } from 'react-router-dom';
 import Popup from '../Popup/Popup';
-import { registerUser } from '../../store/slices/accountSlice';
+import {
+  registerUser,
+  updateRegistrationFormData,
+  resetUser,
+} from '../../store/slices/accountSlice';
 import { loginUser } from '../../store/slices/authSlice';
 import registerValidation from '../../utils/validations/registerValidation';
 import Loader from '../Loader/Loader';
@@ -36,6 +40,7 @@ export default function RegisterPopup({ onClose }) {
   };
 
   const { loading: isLoading } = useSelector((state) => state.account);
+  const registrationFormData = useSelector((state) => state.account.user);
 
   const handleLoginClick = () => {
     onClose();
@@ -53,6 +58,7 @@ export default function RegisterPopup({ onClose }) {
         if (registrationResponse?.error) {
           console.log('Ошибка при регистрации:', registrationResponse.error);
         } else {
+          dispatch(resetUser());
           const loginData = {
             username: userData.username,
             password: userData.password,
@@ -87,18 +93,46 @@ export default function RegisterPopup({ onClose }) {
   } = useForm({
     mode: 'onChange',
     resolver: yupResolver(registerValidation, { criteriaMode: 'all' }),
+    defaultValues: {
+      username: registrationFormData.username,
+      email: registrationFormData.email,
+      first_name: registrationFormData.first_name,
+      last_name: registrationFormData.last_name,
+    },
   });
 
   const onBlur = (evt) => {
     const fieldName = evt.target.name;
     const trimmedValue = evt.target.value.trim();
+
+    const updatedData = {
+      username: registrationFormData.username,
+      email: registrationFormData.email,
+      first_name: registrationFormData.first_name,
+      last_name: registrationFormData.last_name,
+    };
+
+    updatedData[fieldName] = trimmedValue;
+    dispatch(updateRegistrationFormData(updatedData));
     setValue(fieldName, trimmedValue);
   };
   const password = useRef({});
   password.current = watch('password', '');
 
+  const handleClose = () => {
+    const updatedData = {
+      username: registrationFormData.username,
+      email: registrationFormData.email,
+      first_name: registrationFormData.first_name,
+      last_name: registrationFormData.last_name,
+    };
+
+    dispatch(updateRegistrationFormData(updatedData));
+    onClose();
+  };
+
   return (
-    <Popup onClose={onClose} popupSize="popup_m" title="Регистрация">
+    <Popup onClose={handleClose} popupSize="popup_m" title="Регистрация">
       <form className="form" onSubmit={handleSubmit(handleRegistration)}>
         <div className="form__input-block">
           <label className="form__input-label" htmlFor="RegisterPopup-login">

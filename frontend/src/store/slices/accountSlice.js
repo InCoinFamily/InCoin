@@ -40,6 +40,9 @@ const accountSlice = createSlice({
       state.user = initialState.user;
       state.isFetched = false;
     },
+    updateRegistrationFormData: (state, action) => {
+      state.user = action.payload;
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -96,6 +99,6 @@ const accountSlice = createSlice({
   },
 });
 
-export const { resetUser } = accountSlice.actions;
+export const { resetUser, updateRegistrationFormData } = accountSlice.actions;
 
 export const accountReducer = accountSlice.reducer;
