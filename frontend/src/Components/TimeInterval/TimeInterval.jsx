@@ -1,10 +1,13 @@
 import { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { setDateStart, setDateEnd } from '../../store/slices/dateSlice';
 
 export default function TimeInterval({ selectedTimeInterval, dateFormatter }) {
   const dispatch = useDispatch();
   const today = new Date();
+
+  const startDate = useSelector((state) => state.dates.startDate);
+  const endDate = useSelector((state) => state.dates.endDate);
 
   useEffect(() => {
     const updateDateRange = () => {
@@ -17,7 +20,7 @@ export default function TimeInterval({ selectedTimeInterval, dateFormatter }) {
         }
         case 'week': {
           const weekStart = new Date(today);
-          weekStart.setDate(today.getDate() - 6); // 6 дней назад
+          weekStart.setDate(today.getDate() - 6);
           const formattedWeekStart = dateFormatter.format(weekStart);
           const formattedWeekEnd = dateFormatter.format(today);
           dispatch(setDateStart(formattedWeekStart));
@@ -26,7 +29,7 @@ export default function TimeInterval({ selectedTimeInterval, dateFormatter }) {
         }
         case 'month': {
           const monthAgo = new Date();
-          monthAgo.setMonth(monthAgo.getMonth() - 1); // месяц назад от текущей даты
+          monthAgo.setMonth(monthAgo.getMonth() - 1);
           const formattedMonthAgo = dateFormatter.format(monthAgo);
           const formattedToday = dateFormatter.format(today);
           dispatch(setDateStart(formattedMonthAgo));
@@ -35,7 +38,7 @@ export default function TimeInterval({ selectedTimeInterval, dateFormatter }) {
         }
         case 'year': {
           const yearAgo = new Date(today);
-          yearAgo.setFullYear(today.getFullYear() - 1); // год назад от текущей даты
+          yearAgo.setFullYear(today.getFullYear() - 1);
           const formattedYearAgo = dateFormatter.format(yearAgo);
           const formattedTodayForYear = dateFormatter.format(today);
           dispatch(setDateStart(formattedYearAgo));
@@ -59,11 +62,11 @@ export default function TimeInterval({ selectedTimeInterval, dateFormatter }) {
       case 'today':
         return `Сегодня: ${dateFormatter.format(today)}`;
       case 'week':
-        return `На этой неделе: ${dateFormatter.format(today)} - ${dateFormatter.format(today)}`;
+        return `На этой неделе: ${startDate} - ${endDate}`;
       case 'month':
-        return `За месяц: ${dateFormatter.format(today)} - ${dateFormatter.format(today)}`;
+        return `За месяц: ${startDate} - ${endDate}`;
       case 'year':
-        return `За год: ${dateFormatter.format(today)} - ${dateFormatter.format(today)}`;
+        return `За год: ${startDate} - ${endDate}`;
       case 'all':
         return 'Вся история';
       default:
