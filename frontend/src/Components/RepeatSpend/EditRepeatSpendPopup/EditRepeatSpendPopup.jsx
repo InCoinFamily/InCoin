@@ -1,46 +1,47 @@
-import './RepeatExpensesPopup.scss';
 import { useMemo, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import Popup from '../Popup/Popup';
-import Button from '../../ui/Button/Button';
-import Tabs from '../Tabs/Tabs';
-import { arrCategoriesDate, arrCategoriesWeek } from '../../utils/consts';
-import Radio from '../../ui/Radio/Radio';
-import InputData from '../../ui/InputData/InputDate';
-import { addRepeatSpendBox } from '../../store/slices/repeatSpendSlice';
-import SelectButtonWrapper from '../SelectButtonWrapper/SelectButtonWrapper';
-import Checkbox from './checkbox';
-import { arrCalendar, toISOString } from '../../utils/helpers';
+import { useSelector, useDispatch } from 'react-redux';
 
-export default function RepeatExpensesPopup({ onClose }) {
+import Popup from '../../Popup/Popup';
+import Button from '../../../ui/Button/Button';
+import SelectButtonWrapper from '../../SelectButtonWrapper/SelectButtonWrapper';
+import InputData from '../../../ui/InputData/InputDate';
+import {
+  deleteRepeatSpendBox,
+  editRepeatSpendBox,
+  getRepeatSpendBox,
+} from '../../../store/slices/repeatSpendSlice';
+import Tabs from '../../Tabs/Tabs';
+import { arrCategoriesDate, arrCategoriesWeek } from '../../../utils/consts';
+import Checkbox from '../../RepeatExpensesPopup/checkbox';
+import Radio from '../../../ui/Radio/Radio';
+import usePopup from '../../../utils/hooks/usePopup';
+import ConfirmationPopup from '../../ConfirmationPopup/ConfirmationPopup';
+import { arrCalendar, toISOString } from '../../../utils/helpers';
+
+export default function EditRepeatSpendPopup({ onClose, repeatSpend }) {
   const dispatch = useDispatch();
 
-  const [arrActiveDay, setArrActiveDay] = useState([]);
-  const [activeType, setActiveType] = useState('Ежедневно');
-  const [selected, setSelected] = useState('Бесконечно');
-  const [startDate, setStartDate] = useState('');
-  const [endDate, setEndDate] = useState('');
+  const { id } = repeatSpend;
+  const dateInputDisabled = repeatSpend.created.slice(0, 10).split('-').reverse().join('.');
 
   // выбираем только расходные
   const { userCategories } = useSelector((state) => state.userFinanceAndCategories);
   const expenseCategories = userCategories.filter((cat) => cat.category_type === 1);
+
+  const [arrActiveDay, setArrActiveDay] = useState([]);
+  const [activeType, setActiveType] = useState('Ежедневно');
+  const [selected, setSelected] = useState('Бесконечно');
+  const [endDate, setEndDate] = useState('');
   const arrDay = arrCalendar();
 
-  const [formData, setFormData] = useState({
-    category: expenseCategories[0].id,
-    created: '',
-    repeat_type: 0,
-    repeat_period: 0,
-    type_week: [],
-    to_date: '',
-  });
+  const [formData, setFormData] = useState(repeatSpend);
+  console.log('repeat', repeatSpend);
+  // eslint-disable-next-line react-hooks/exhaustive-deps, no-nested-ternary
+  const type = activeType === 'Ежедневно' ? 0 : activeType === 'Еженедельно' ? 1 : 2;
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const period = selected === 'Указать дату окончания' ? 2 : 0;
 
   useMemo(() => {
-    // eslint-disable-next-line react-hooks/exhaustive-deps, no-nested-ternary
-    const type = activeType === 'Ежедневно' ? 0 : activeType === 'Еженедельно' ? 1 : 2;
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    const period = selected === 'Указать дату окончания' ? 2 : 0;
-
     if (type === 1) {
       setFormData({
         ...formData,
@@ -64,11 +65,27 @@ export default function RepeatExpensesPopup({ onClose }) {
     }
   }, [activeType, selected, arrActiveDay]);
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    dispatch(addRepeatSpendBox(formData)).then(() => {
+  const {
+    isOpen: isConfirmationPopupOpen,
+    openPopup: openConfirmationPopup,
+    closePopup: closeConfirmationPopup,
+  } = usePopup('confirmation');
+
+  const handleRepeatSpendBox = (evt) => {
+    evt.preventDefault();
+    dispatch(
+      editRepeatSpendBox({
+        id: repeatSpend.id,
+        formData,
+      }),
+    ).then(() => {
+      dispatch(getRepeatSpendBox());
       onClose();
     });
+  };
+  const handleDeleteRepeatSpendBox = (evt) => {
+    evt.preventDefault();
+    openConfirmationPopup();
   };
 
   const handleChangeDay = (e) => {
@@ -85,21 +102,8 @@ export default function RepeatExpensesPopup({ onClose }) {
     setActiveType(tab);
   };
 
-  const handleСancel = (evt) => {
-    evt.preventDefault();
-    onClose();
-  };
-
   const handleRadio = (evt) => {
     setSelected(evt.target.value);
-  };
-
-  const handleDateChange = (value) => {
-    const date = Date(value);
-    setFormData((prevFormData) => ({
-      ...prevFormData,
-      created: toISOString(date),
-    }));
   };
 
   const handleToDateChange = (value) => {
@@ -111,8 +115,8 @@ export default function RepeatExpensesPopup({ onClose }) {
   };
 
   return (
-    <Popup onClose={onClose} popupSize="popup_repeat" title="Создать повторяющийся расход">
-      <form className="form repeat-expenses" onSubmit={handleSubmit}>
+    <Popup onClose={onClose} popupSize="popup_repeat" title={repeatSpend.name}>
+      <form className="form repeat-expenses" onSubmit={handleRepeatSpendBox}>
         <div className="form__input-block">
           <label className="form__input-label" htmlFor="repeat-expenses-name">
             Название
@@ -122,6 +126,7 @@ export default function RepeatExpensesPopup({ onClose }) {
               name="name"
               id="repeat-expenses-name"
               placeholder="Название транзакции"
+              value={formData.name}
               onChange={(evt) => {
                 setFormData({ ...formData, [evt.target.name]: evt.target.value });
               }}
@@ -132,15 +137,15 @@ export default function RepeatExpensesPopup({ onClose }) {
         <SelectButtonWrapper
           label="Категория"
           options={expenseCategories}
-          initialValue={formData.category}
+          initialValue={formData.category.category_type}
           imageKey="image"
           nameKey="name"
           altText="Иконка категории"
           handleOptionChange={(value) =>
-            setFormData((prevFormData) => ({
-              ...prevFormData,
+            setFormData({
+              ...formData,
               category: value,
-            }))
+            })
           }
         />
 
@@ -156,6 +161,7 @@ export default function RepeatExpensesPopup({ onClose }) {
               name="amount"
               id="repeat-expenses-amount"
               placeholder="0"
+              value={formData.amount}
               onChange={(evt) => setFormData({ ...formData, [evt.target.name]: +evt.target.value })}
             />
           </label>
@@ -165,9 +171,8 @@ export default function RepeatExpensesPopup({ onClose }) {
           labelTitle="Дата"
           inputStyleName="repeat-expenses-startDate"
           inputName="created"
-          value={startDate}
-          onChange={handleDateChange}
-          setValueDate={setStartDate}
+          value={dateInputDisabled}
+          disabled={true}
         />
 
         <div className="form__text-content">
@@ -253,13 +258,26 @@ export default function RepeatExpensesPopup({ onClose }) {
           <Button
             variant="secondary"
             content="text"
-            text="Отменить"
+            text="Удалить повторяющийся расход"
             size="medium"
-            onClick={handleСancel}
+            onClick={handleDeleteRepeatSpendBox}
           />
           <Button type="submit" variant="primary" content="text" text="Сохранить" size="medium" />
         </div>
       </form>
+      {isConfirmationPopupOpen && (
+        <ConfirmationPopup
+          onClose={closeConfirmationPopup}
+          onSubmit={() => {
+            dispatch(deleteRepeatSpendBox(id)).then(() => {
+              dispatch(getRepeatSpendBox());
+              onClose();
+            });
+          }}
+          confirmationText={`Вы действительно хотите удалить повторный расход «${repeatSpend.name}» ?`}
+          buttonText={repeatSpend.name}
+        />
+      )}
     </Popup>
   );
 }
